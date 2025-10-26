@@ -24,16 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.google.firebase.auth.FirebaseAuth
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Face
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -57,7 +52,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "App Logo",
                 modifier = Modifier
                     .size(100.dp)
@@ -162,9 +157,7 @@ fun LoginScreen(navController: NavController) {
                             if (task.isSuccessful) {
                                 // Go to main or home page
                                 navController.navigate("home") {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        inclusive = true
-                                    }
+                                    popUpTo("login") { inclusive = true }
                                     launchSingleTop = true
                                 }
                             } else {
