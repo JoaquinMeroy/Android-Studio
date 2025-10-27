@@ -1,5 +1,6 @@
 package com.example.progressprojectmilestone
 
+import ProfileScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -42,9 +43,7 @@ fun AppNavigation() {
         if (auth.currentUser != null) "home" else "login"
     }
     NavHost(navController = navController, startDestination = "splash") {
-        composable("task_details") {
-            TaskDetailsScreen(navController, taskId = "")
-        }
+        composable("task_details") { TaskDetailsScreen(navController, taskId = "") }
         composable("task_details/{taskId}") { backStackEntry ->
             val taskId = backStackEntry.arguments?.getString("taskId") ?: ""
             TaskDetailsScreen(navController, taskId = taskId)
@@ -54,6 +53,8 @@ fun AppNavigation() {
         composable("signup") { SignUpScreen(navController) }
         composable("forgot_password") { ForgotPasswordScreen(navController) }
         composable("home") { HomeScreen(navController) }
+        // Add this:
+        composable("profile") { ProfileScreen(navController) }
     }
 
 

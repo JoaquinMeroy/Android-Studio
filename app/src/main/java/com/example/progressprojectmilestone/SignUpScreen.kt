@@ -15,6 +15,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 
 
 @Composable
@@ -27,6 +29,10 @@ fun SignUpScreen(navController: NavController) {
     var passwordMismatch by remember { mutableStateOf(false) }
     var signUpError by remember { mutableStateOf<String?>(null) }
     var loading by remember { mutableStateOf(false) }
+    var username by remember { mutableStateOf("") }
+    var number by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
 
     Column(
         modifier = Modifier
@@ -37,6 +43,21 @@ fun SignUpScreen(navController: NavController) {
     ) {
         Text("Create Account", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(24.dp))
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Username") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = number,
+            onValueChange = { number = it },
+            label = { Text("Number") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -106,6 +127,23 @@ fun SignUpScreen(navController: NavController) {
                         .addOnCompleteListener { task ->
                             loading = false
                             if (task.isSuccessful) {
+                                val userId = auth.currentUser?.uid
+                                if (userId != null) {
+                                    val userMap = mapOf(
+                                        "email" to email.trim(),
+                                        "username" to username.trim(),
+                                        "number" to number.trim()
+                                    )
+                                    // Save profile to Firestore
+                                    com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                                        .collection("users").document(userId)
+                                        .set(userMap)
+                                }
+                                Toast.makeText(
+                                    context,
+                                    "Account created successfully!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 navController.navigate("login")
                             } else {
                                 signUpError = task.exception?.localizedMessage ?: "Sign up failed"

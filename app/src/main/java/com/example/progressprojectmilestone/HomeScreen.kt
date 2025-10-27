@@ -194,7 +194,7 @@ fun HomeScreen(navController: NavController) {
                     )
                     NavigationBarItem(
                         selected = false,
-                        onClick = { /* Profile */ },
+                        onClick = { navController.navigate("profile") },
                         icon = { Icon(Icons.Default.Person, contentDescription = "Profile") }
                     )
                 }
