@@ -53,8 +53,9 @@ fun AppNavigation() {
         composable("signup") { SignUpScreen(navController) }
         composable("forgot_password") { ForgotPasswordScreen(navController) }
         composable("home") { HomeScreen(navController) }
-        // Add this:
         composable("profile") { ProfileScreen(navController) }
+        composable ( "calendar" ) {CalendarScreen(navController)}
+        composable("progress") { ProgressScreen(navController) }
     }
 
 

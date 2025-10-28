@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -90,5 +91,21 @@ fun ProfileScreen(navController: NavController) {
             Text("Phone Number")
             Text(number.ifBlank { "xxxxxxxxxxx" })
         }
+        Spacer(modifier = Modifier.weight(1f)) // Push the button to bottom
+        Button(
+            onClick = {
+                FirebaseAuth.getInstance().signOut()
+                navController.navigate("login") {
+                    popUpTo("profile") { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text("Logout")
+        }
     }
 }
+
